@@ -5,27 +5,33 @@ import { firebaseApp } from './firebaseApp';
 
 Vue.use(VueRouter);
 
+import store from './store';
+
 import Dashboard from './components/Dashboard.vue';
 import Signin from './components/Signin.vue';
+import SingUp from './components/Signup.vue';
 
 const router = new VueRouter({
   mode: 'history',
   routes: [
     { path: '/dashboard', component: Dashboard },
-    { path: '/signin', component: Signin }
+    { path: '/signin', component: Signin },
+    { path: '/signup', component: SingUp }
   ]
 });
 
 firebaseApp.auth().onAuthStateChanged(user => {
   if (user) {
-    router.push('/dashboard')
-  }else{
-    router.replace('/signin')
+    store.dispatch('signIn', user);
+    router.push('/dashboard');
+  } else {
+    router.replace('/signin');
   }
-})
+});
 
 new Vue({
   el: '#app',
   router,
+  store,
   render: h => h(App)
 });
