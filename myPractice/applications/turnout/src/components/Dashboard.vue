@@ -4,13 +4,12 @@
     <button class="btn btn-danger btn-sm signout-btn" @click="signOut">Sign Out</button>
     <hr>
     <AddEvent />
-    <hr>
-    {{$store.state.user}}
+    <hr> {{$store.state}}
   </div>
 </template>
 
 <script>
-import { firebaseApp } from '../firebaseApp';
+import { firebaseApp, eventRef } from '../firebaseApp';
 import AddEvent from './AddEvent.vue';
 
 export default {
@@ -22,6 +21,16 @@ export default {
   },
   components: {
     AddEvent
+  },
+  mounted() {
+    eventRef.on('value', snap => {
+      let events = [];
+      snap.forEach(event => {
+        events.push(event.val());
+      });
+
+      console.log('events', events)
+    });
   }
 };
 </script>
