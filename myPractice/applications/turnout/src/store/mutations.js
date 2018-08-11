@@ -4,7 +4,12 @@ export const mutations = {
   [types.SIGN_IN](state, user_payload) {
     state.user = user_payload;
   },
+
   [types.SIGN_OUT](state) {
     state.user = {};
+  },
+
+  [types.SET_EVENTS](state, event_payload) {
+    state.events = event_payload;
   }
 };
